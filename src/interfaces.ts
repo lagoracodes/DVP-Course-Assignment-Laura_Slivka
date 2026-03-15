@@ -17,3 +17,12 @@ export interface Article {
   submitted_by: number;
   created_at: Date;
 }
+
+export interface ArticleWithAuthor {
+  id: number;
+  title: string;
+  body: string;
+  category: string;
+  author: string;
+  created_at: Date;
+}

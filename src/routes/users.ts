@@ -1,5 +1,4 @@
 import { Router } from "express";
-import type { Request } from "express";
 import { ResultSetHeader } from "mysql2";
 import { pool } from "../database";
 import { User } from "../interfaces";
