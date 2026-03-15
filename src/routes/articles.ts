@@ -14,7 +14,12 @@ const router = Router();
 // get all articles
 router.get("/", async (req, res) => {
   try {
-    const [rows] = await pool.execute(`
+    const page = Math.max(1, Number(req.query.page) || 1);
+    const limit = Math.min(100, Math.max(1, Number(req.query.limit) || 10));
+    const offset = (page - 1) * limit;
+
+    const [rows] = await pool.execute(
+      `
         SELECT
           articles.id,
           articles.title,
@@ -25,7 +30,10 @@ router.get("/", async (req, res) => {
         FROM articles
         JOIN users ON articles.submitted_by = users.id
         ORDER BY articles.created_at DESC
-      `);
+        LIMIT ? OFFSET ?
+      `,
+      [limit, offset],
+    );
 
     const articles = rows as ArticleWithAuthor[];
 
